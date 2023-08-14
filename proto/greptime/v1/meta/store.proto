@@ -144,13 +144,20 @@ message BatchDeleteResponse {
   repeated KeyValue prev_kvs = 2;
 }
 
+message KeyExpect {
+  oneof expect {
+    bytes value = 1;
+    uint64 version = 2;
+  }
+}
+
 message CompareAndPutRequest {
   RequestHeader header = 1;
 
   // key is the key, in bytes, to put into the key-value store.
   bytes key = 2;
-  // expect is the previous value, in bytes
-  bytes expect = 3;
+  // `expect` is the current expected state (value, version etc.) of the key
+  KeyExpect expect = 3;
   // value is the value, in bytes, to associate with the key in the
   // key-value store.
   bytes value = 4;
